@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: messagesapi
+  labels:
+    app: messagesapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: messagesapi
+  template:
+    metadata:
+      labels:
+        app: messagesapi
+    spec:
+      containers:
+        - name: messageapi
+          image: leolanavo/messages-api:0.1.0
+          ports:
+            - containerPort: 3000
