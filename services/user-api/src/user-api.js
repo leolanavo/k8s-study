@@ -13,6 +13,10 @@ router.get("/health-check", (ctx) => {
   ctx.res.statusCode = 200;
 });
 
+router.get("/messages", (ctx) => {
+  ctx.body = "Message from users";
+});
+
 router.get("/", (ctx) => {
   ctx.body = "Hello World";
 });

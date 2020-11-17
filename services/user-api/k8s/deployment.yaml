@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: userapi
+  name: usersapi
   labels:
-    app: userapi
+    app: usersapi
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: userapi
+      app: usersapi
   template:
     metadata:
       labels:
-        app: userapi
+        app: usersapi
     spec:
       containers:
-        - name: simplekoa
-          image: leolanavo/user-api:0.1.0
+        - name: usersapi
+          image: leolanavo/users-api:0.2.0
           ports:
             - containerPort: 3000
