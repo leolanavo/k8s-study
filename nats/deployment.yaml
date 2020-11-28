@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broker
+  labels:
+    app: broker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: broker
+  template:
+    metadata:
+      labels:
+        app: broker
+    spec:
+      containers:
+        - name: broker
+          image: nats-streaming:0.19.0-alpine
+          ports:
+            - containerPort: 8222
+          volumeMounts:
+            - name: broker-data
+              mountPath: /datastore
+          args: ["-st", "FILE", "--dir", "/datastore", "-m", "8222"]
+      volumes:
+        - name: broker-data
+          persistentVolumeClaim:
+            claimName: broker-data-claim

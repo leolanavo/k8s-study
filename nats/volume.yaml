@@ -1,0 +1,30 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: broker-pv
+  labels:
+    app: broker
+    type: local
+spec:
+  storageClassName: hostpath
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/var/datastore"
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: broker-data-claim
+  labels:
+    app: broker
+spec:
+  storageClassName: hostpath
+  capacity:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
