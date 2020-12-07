@@ -6,4 +6,7 @@ spec:
   selector:
     app: broker
   ports:
-    - port: 8222
+    - name: monitoring
+      port: 8222
+    - name: client
+      port: 4222

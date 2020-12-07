@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: messagesapi
-          image: leolanavo/messages-api:0.2.5
+          image: leolanavo/messages-api:0.3.23
           ports:
             - containerPort: 3000
