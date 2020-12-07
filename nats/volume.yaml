@@ -13,18 +13,3 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: "/var/datastore"
----
-kind: PersistentVolumeClaim
-apiVersion: v1
-metadata:
-  name: broker-data-claim
-  labels:
-    app: broker
-spec:
-  storageClassName: hostpath
-  capacity:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 5Gi

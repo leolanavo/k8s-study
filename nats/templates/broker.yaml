@@ -1,0 +1,80 @@
+###############################
+### Persistent Volume Claim ###
+###############################
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Values.pvcName }}
+  labels:
+    app: broker
+spec:
+  storageClassName: hostpath
+  capacity:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+---
+##################
+### Deployment ###
+##################
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: broker
+  labels:
+    app: broker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: broker
+  template:
+    metadata:
+      labels:
+        app: broker
+    spec:
+      containers:
+        - name: broker
+          image: nats-streaming:0.19.0-alpine
+          ports:
+            - containerPort: {{ .Values.monitoringPort }}
+            - containerPort: {{ .Values.clientPort }}
+          volumeMounts:
+            - name: broker-data
+              mountPath: /datastore
+          command: ["nats-streaming-server"]
+          args:
+            [
+              "-st",
+              "FILE",
+              "--dir",
+              "/datastore",
+              "-D",
+              "-m",
+              "{{ .Values.monitoringPort }}",
+              "-SD",
+              "-cid",
+              "broker-cluster",
+            ]
+      volumes:
+        - name: broker-data
+          persistentVolumeClaim:
+            claimName: {{ .Values.pvcName }}
+---
+###############
+### Service ###
+###############
+apiVersion: v1
+kind: Service
+metadata:
+  name: broker
+spec:
+  selector:
+    app: broker
+  ports:
+    - name: monitoring
+      port: {{ .Values.monitoringPort }}
+    - name: client
+      port: {{ .Values.clientPort }}

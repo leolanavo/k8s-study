@@ -1,0 +1,3 @@
+monitoringPort: 8222
+clientPort: 4222
+pvcName: broker-data-claim
